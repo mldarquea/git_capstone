@@ -24,6 +24,14 @@ def retweeted():
     df_retweeted = df.sort_values(by=['retweetCount'], ascending=False).head(n=10)[['id','retweetCount']].copy()
     return df_retweeted
 
+# Función 2, personas con más tweets
+def categorise(row): 
+    return row['user']['username']
+def famocillo():
+    df["user_id"] = df.apply(lambda row: categorise(row), axis = 1)
+    df1 = df[['user_id', 'user']].copy() 
+    df1['counts'] = df1.groupby(['user_id'])['user'].transform('count')
+    return df1.sort_values(by='counts',ascending=False).head(10)
 
 # Función 3, días con más tweets
 def days():
@@ -35,6 +43,11 @@ print("\n")
 # Función 1
 print("DATAFRAME ORDENADO SEGÚN PRIMERA FUNCIÓN:\n")
 print(retweeted())
+print("\n")
+
+# Función 2
+print("DATAFRAME ORDENADO SEGÚN N° DE TWEETS DE USUARIOS:\n")
+print(famocillo())
 print("\n")
 
 
